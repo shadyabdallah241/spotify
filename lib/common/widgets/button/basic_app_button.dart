@@ -19,7 +19,7 @@ class BasicAppButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         minimumSize: Size.fromHeight(height ?? 80),
       ),
-      child: Text(label, style: TextStyle(color: Colors.white)),
+      child: Text(label, style: TextStyle(color: Color(0xffF6F6F6))),
     );
   }
 }

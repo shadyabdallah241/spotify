@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:spotify/presentation/choose_mode/bloc/theme_cubit.dart';
 import '../../../common/widgets/button/basic_app_button.dart';
 import '../../../core/configs/assets/app_images.dart';
 import '../../../core/configs/assets/app_vectors.dart';
@@ -45,7 +47,9 @@ class _ChooseModePageState extends State<ChooseModePage> {
                   mainAxisAlignment: .center,
                   children: [
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        context.read<ThemeCubit>().updateTheme(ThemeMode.dark);
+                      },
                       child: Column(
                         children: [
                           ClipRRect(
@@ -81,10 +85,13 @@ class _ChooseModePageState extends State<ChooseModePage> {
                       ),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        context.read<ThemeCubit>().updateTheme(ThemeMode.light);
+                      },
                       child: Column(
                         children: [
                           ClipRRect(
+                            borderRadius: BorderRadiusGeometry.circular(50),
                             child: Stack(
                               alignment: .center,
                               children: [
@@ -93,9 +100,6 @@ class _ChooseModePageState extends State<ChooseModePage> {
                                   height: 75,
                                   decoration: BoxDecoration(
                                     color: Colors.black12.withAlpha(10),
-                                    borderRadius: BorderRadiusGeometry.circular(
-                                      50,
-                                    ),
                                   ),
                                 ),
                                 Positioned.fill(

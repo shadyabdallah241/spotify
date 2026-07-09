@@ -5,10 +5,25 @@ import 'package:spotify/common/helpers/is_dark_mood.dart';
 import 'package:spotify/common/widgets/button/basic_app_button.dart';
 import 'package:spotify/core/configs/assets/app_vectors.dart';
 import 'package:spotify/core/configs/theme/app_colors.dart';
+import 'package:spotify/data/models/auth/create_user_req.dart';
+import 'package:spotify/domain/usecases/auth/signup.dart';
 import 'package:spotify/presentation/auth/pages/signin.dart';
+import 'package:spotify/presentation/root/pages/root.dart';
+import 'package:spotify/service_locator.dart';
 
-class SignupPage extends StatelessWidget {
+class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
+
+  @override
+  State<SignupPage> createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
+  final TextEditingController _fullName = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+
+  bool isobscure = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +50,69 @@ class SignupPage extends StatelessWidget {
               ],
             ),
             SizedBox(height: 15),
-            FullNameField(),
+            TextFormField(
+              controller: _fullName,
+              cursorColor: AppColors.darkGrey,
+              decoration: InputDecoration(
+                hintText: ("Full Name"),
+                contentPadding: EdgeInsets.all(30),
+              ),
+            ),
             SizedBox(height: 15),
-            EmailField(),
+            TextFormField(
+              controller: _email,
+              decoration: InputDecoration(
+                hintText: "Enter Email",
+                contentPadding: EdgeInsets.all(30),
+              ),
+            ),
             SizedBox(height: 15),
-            PasswordFiled(),
+            TextFormField(
+              controller: _password,
+              obscureText: isobscure,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(30),
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      isobscure = !isobscure;
+                    });
+                  },
+                  icon: !isobscure
+                      ? Icon(Icons.visibility_outlined)
+                      : Icon(Icons.visibility_off_outlined),
+                ),
+
+                hintText: "Password",
+              ),
+            ),
             SizedBox(height: 30),
-            BasicAppButton(onPressed: () {}, label: "Creat Account"),
+            BasicAppButton(
+              onPressed: () async {
+                var result = await sl<SignupUseCase>().call(
+                  params: CreateUserReq(
+                    fullName: _fullName.text,
+                    email: _email.text,
+                    password: _password.text,
+                  ),
+                );
+
+                result.fold(
+                  (l) {
+                    var snackBar = SnackBar(content: Text(l));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  },
+                  (r) {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => RootPage()),
+                      (route) => false,
+                    );
+                  },
+                );
+              },
+              label: "Creat Account",
+            ),
             SizedBox(height: 30),
             Row(
               children: [
@@ -107,67 +178,6 @@ class SignupPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class FullNameField extends StatelessWidget {
-  const FullNameField({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      cursorColor: AppColors.darkGrey,
-      decoration: InputDecoration(
-        hintText: ("Full Name"),
-        contentPadding: EdgeInsets.all(30),
-      ),
-    );
-  }
-}
-
-class EmailField extends StatelessWidget {
-  const EmailField({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      decoration: InputDecoration(
-        hintText: "Enter Email",
-        contentPadding: EdgeInsets.all(30),
-      ),
-    );
-  }
-}
-
-class PasswordFiled extends StatefulWidget {
-  const PasswordFiled({super.key});
-
-  @override
-  State<PasswordFiled> createState() => _PasswordFiledState();
-}
-
-class _PasswordFiledState extends State<PasswordFiled> {
-  bool isobscure = false;
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      obscureText: isobscure,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.all(30),
-        suffixIcon: IconButton(
-          onPressed: () {
-            setState(() {
-              isobscure = !isobscure;
-            });
-          },
-          icon: !isobscure
-              ? Icon(Icons.visibility_outlined)
-              : Icon(Icons.visibility_off_outlined),
-        ),
-
-        hintText: "Password",
       ),
     );
   }

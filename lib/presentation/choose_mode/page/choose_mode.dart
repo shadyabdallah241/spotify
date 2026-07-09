@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:spotify/presentation/auth/pages/signup_or_signin.dart';
 import 'package:spotify/presentation/choose_mode/bloc/theme_cubit.dart';
+
 import '../../../common/widgets/button/basic_app_button.dart';
 import '../../../core/configs/assets/app_images.dart';
 import '../../../core/configs/assets/app_vectors.dart';
@@ -127,7 +129,15 @@ class _ChooseModePageState extends State<ChooseModePage> {
                   ],
                 ),
                 SizedBox(height: 40),
-                BasicAppButton(label: "Continue", onPressed: () {}),
+                BasicAppButton(
+                  label: "Continue",
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignupOrSignin()),
+                    );
+                  },
+                ),
                 SizedBox(height: 24),
               ],
             ),

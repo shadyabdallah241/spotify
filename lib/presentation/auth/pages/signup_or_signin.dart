@@ -5,6 +5,7 @@ import 'package:spotify/common/helpers/is_dark_mood.dart';
 import 'package:spotify/common/widgets/button/basic_app_button.dart';
 import 'package:spotify/core/configs/assets/app_images.dart';
 import 'package:spotify/core/configs/assets/app_vectors.dart';
+import 'package:spotify/presentation/auth/pages/signup.dart';
 
 class SignupOrSignin extends StatelessWidget {
   const SignupOrSignin({super.key});
@@ -15,8 +16,7 @@ class SignupOrSignin extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            const BasicAppbar(),
-
+            const BasicAppbar(hasTitle: false),
             Align(
               alignment: .topRight,
               child: SvgPicture.asset(AppVectors.topPattern),
@@ -50,7 +50,14 @@ class SignupOrSignin extends StatelessWidget {
                       children: [
                         Expanded(
                           child: BasicAppButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SignupPage(),
+                                ),
+                              );
+                            },
                             label: "Register",
                           ),
                         ),

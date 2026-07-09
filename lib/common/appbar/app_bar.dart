@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:spotify/common/helpers/is_dark_mood.dart';
+import 'package:spotify/core/configs/assets/app_vectors.dart';
 import 'package:spotify/core/configs/theme/app_colors.dart';
 
 class BasicAppbar extends StatelessWidget {
-  const BasicAppbar({super.key});
+  const BasicAppbar({super.key, this.hasTitle = true});
+  final bool hasTitle;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
+      title: hasTitle ? SvgPicture.asset(AppVectors.logo, width: 100) : null,
+      centerTitle: true,
       leading: IconButton(
         onPressed: () => Navigator.pop(context),
         icon: Container(

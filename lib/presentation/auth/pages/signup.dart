@@ -5,6 +5,7 @@ import 'package:spotify/common/helpers/is_dark_mood.dart';
 import 'package:spotify/common/widgets/button/basic_app_button.dart';
 import 'package:spotify/core/configs/assets/app_vectors.dart';
 import 'package:spotify/core/configs/theme/app_colors.dart';
+import 'package:spotify/presentation/auth/pages/signin.dart';
 
 class SignupPage extends StatelessWidget {
   const SignupPage({super.key});
@@ -94,7 +95,12 @@ class SignupPage extends StatelessWidget {
                 ),
                 TextButton(
                   style: TextButton.styleFrom(padding: EdgeInsets.all(0)),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SigninPage()),
+                    );
+                  },
                   child: Text("Sign In", style: TextStyle(color: Colors.blue)),
                 ),
               ],

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spotify/common/appbar/app_bar.dart';
+import 'package:spotify/common/helpers/is_dark_mood.dart';
 import 'package:spotify/common/widgets/button/basic_app_button.dart';
-import 'package:spotify/common/widgets/textfiled/basic_textFiled.dart';
 import 'package:spotify/core/configs/assets/app_vectors.dart';
 import 'package:spotify/core/configs/theme/app_colors.dart';
 
@@ -16,7 +16,7 @@ class SignupPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
-            BasicAppbar(),
+            BasicAppbar(title: SvgPicture.asset(AppVectors.logo, width: 100)),
             SizedBox(height: 47),
             Text("Register", style: TextStyle(fontSize: 30, fontWeight: .bold)),
             SizedBox(height: 15),
@@ -34,11 +34,11 @@ class SignupPage extends StatelessWidget {
               ],
             ),
             SizedBox(height: 15),
-            BasicTextFiled(hint: "Full Name"),
+            FullNameField(),
             SizedBox(height: 15),
-            BasicTextFiled(hint: "Enter Email"),
+            EmailField(),
             SizedBox(height: 15),
-            BasicTextFiled(hint: "Password", isPassowrd: true),
+            PasswordFiled(),
             SizedBox(height: 30),
             BasicAppButton(onPressed: () {}, label: "Creat Account"),
             SizedBox(height: 30),
@@ -76,10 +76,15 @@ class SignupPage extends StatelessWidget {
               mainAxisAlignment: .center,
               children: [
                 SvgPicture.asset(AppVectors.googleLogo),
-                SvgPicture.asset(AppVectors.appleLogo),
+                SvgPicture.asset(
+                  context.isDarkMode
+                      ? AppVectors.appleLogo
+                      : AppVectors.appleLogoLight,
+                ),
               ],
             ),
             SizedBox(height: 30),
+
             Row(
               mainAxisAlignment: .center,
               children: [
@@ -96,6 +101,67 @@ class SignupPage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class FullNameField extends StatelessWidget {
+  const FullNameField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      cursorColor: AppColors.darkGrey,
+      decoration: InputDecoration(
+        hintText: ("Full Name"),
+        contentPadding: EdgeInsets.all(30),
+      ),
+    );
+  }
+}
+
+class EmailField extends StatelessWidget {
+  const EmailField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      decoration: InputDecoration(
+        hintText: "Enter Email",
+        contentPadding: EdgeInsets.all(30),
+      ),
+    );
+  }
+}
+
+class PasswordFiled extends StatefulWidget {
+  const PasswordFiled({super.key});
+
+  @override
+  State<PasswordFiled> createState() => _PasswordFiledState();
+}
+
+class _PasswordFiledState extends State<PasswordFiled> {
+  bool isobscure = false;
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      obscureText: isobscure,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.all(30),
+        suffixIcon: IconButton(
+          onPressed: () {
+            setState(() {
+              isobscure = !isobscure;
+            });
+          },
+          icon: !isobscure
+              ? Icon(Icons.visibility_outlined)
+              : Icon(Icons.visibility_off_outlined),
+        ),
+
+        hintText: "Password",
       ),
     );
   }

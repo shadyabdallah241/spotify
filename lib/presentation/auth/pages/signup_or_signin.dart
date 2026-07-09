@@ -16,7 +16,7 @@ class SignupOrSignin extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            const BasicAppbar(hasTitle: false),
+            const BasicAppbar(),
             Align(
               alignment: .topRight,
               child: SvgPicture.asset(AppVectors.topPattern),

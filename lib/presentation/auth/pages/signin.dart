@@ -43,7 +43,13 @@ class SigninPage extends StatelessWidget {
             SizedBox(height: 10),
             Row(
               children: [
-                TextButton(onPressed: () {}, child: Text("Recovery Passowrd")),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "Recovery Passowrd",
+                    style: TextStyle(color: AppColors.grey),
+                  ),
+                ),
               ],
             ),
             BasicAppButton(onPressed: () {}, label: "Sign In"),
